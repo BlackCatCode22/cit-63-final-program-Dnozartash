@@ -1,46 +1,41 @@
 // SearchComplexity.java
 // Starter code for final programming assignment in CIT-63 Java Programming Spring 2024
 
-
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class SearchComplexity {
+import static java.util.Arrays.binarySearch;
+
+public final class SearchComplexity {
 
     // Linear Search Method
     public static int linearSearch(int[] array, int target) {
+        int iterations = 0;
         for (int i = 0; i < array.length; i++) {
+            iterations++;
             if (array[i] == target) {
-                return i;  // Returns index of found element
+                System.out.println("Linear search iterations: " + iterations);
+                return i;
+                // Returns index of found element
             }
         }
-        return -1;  // Target not found
+        System.out.println("Linear search iterations: " + iterations);
+        return -1; // Target not found
     }
 
     // Binary Search Method
-    public static int binarySearch(int[] array, int target) {
-        int left = 0;
-        int right = array.length - 1;
-        int iterations = 0;
-
-        while (left <= right) {
+    public static int binarySearchRecursive(int[] array, int target, int left, int right) {
+        if (right >= left) {
             int mid = left + (right - left) / 2;
-            iterations++;
-
             if (array[mid] == target) {
-                System.out.println("Binary search iterations: " + iterations);
                 return mid;
             }
-
-            if (array[mid] < target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+            if (array[mid] > target) {
+                return binarySearchRecursive(array, target, left, mid - 1);
             }
+            return binarySearchRecursive(array, target, mid + 1, right);
         }
-
-        System.out.println("Binary search iterations: " + iterations);
-        return -1;  // Target not found
+        return -1; // Target not found
     }
 
     public static void main(String[] args) {
@@ -71,5 +66,3 @@ public class SearchComplexity {
         scanner.close();
     }
 }
-
-
